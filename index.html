@@ -1,695 +1,978 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Портфолио — Технический специалист</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EGOR GLADKOV — AV ENGINEER</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
     :root {
-      --bg: #080c10;
-      --bg2: #0d1117;
-      --bg3: #111820;
-      --border: rgba(255,255,255,0.07);
-      --accent: #00e5ff;
-      --accent2: #7c3aed;
-      --accent-glow: rgba(0,229,255,0.15);
-      --text: #e2e8f0;
-      --text-muted: #64748b;
-      --text-dim: #94a3b8;
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #1a1a1a;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.15);
+      --text: #ffffff;
+      --text-dim: rgba(255,255,255,0.5);
+      --text-muted: rgba(255,255,255,0.28);
+      --accent: #ffffff;
+      --red: #e63329;
+      --red-dim: rgba(230,51,41,0.15);
+      --green: #22c55e;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
+      font-family: var(--sans);
+      line-height: 1.5;
       overflow-x: hidden;
     }
 
-    /* ── GRID BACKGROUND ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
+    /* ── STATUS BAR ── */
+    .status-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
     }
+    .status-left { display: flex; gap: 1.5rem; align-items: center; }
+    .status-right { display: flex; gap: 1.5rem; align-items: center; }
+    .status-dot {
+      display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      margin-right: 0.4rem;
+      animation: blink 3s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-val { color: rgba(255,255,255,0.65); }
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      height: 64px;
-      background: rgba(8,12,16,0.85);
-      backdrop-filter: blur(16px);
+      position: fixed; top: 32px; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text);
+      letter-spacing: 0.12em;
       text-decoration: none;
+      text-transform: uppercase;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
-      color: var(--text-dim);
+      color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--text); }
+    .nav-burger {
+      display: none; flex-direction: column;
+      gap: 4px; cursor: pointer; padding: 4px;
+    }
+    .nav-burger span {
+      width: 20px; height: 1px;
+      background: var(--text-muted); transition: all 0.3s;
+    }
+    .nav-mobile {
+      display: none; position: fixed;
+      top: 88px; left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem; z-index: 99;
+      flex-direction: column; gap: 0;
+    }
+    .nav-mobile a {
+      color: var(--text-muted); text-decoration: none;
+      font-family: var(--mono); font-size: 0.75rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .nav-mobile a:hover { color: var(--text); }
+    .nav-mobile.open { display: flex; }
 
-    .nav-links a:hover { color: var(--accent); }
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
+    .reveal-d4 { transition-delay: 0.32s; }
+    .reveal-d5 { transition-delay: 0.40s; }
+    .reveal-d6 { transition-delay: 0.48s; }
 
     /* ── SECTIONS ── */
-    section {
+    .section {
       position: relative;
-      z-index: 1;
-      padding: 100px 5%;
-      max-width: 1100px;
+      padding: 100px 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-full {
+      position: relative;
+      padding: 80px 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-inner {
+      max-width: 1200px;
       margin: 0 auto;
     }
 
-    section:first-of-type { padding-top: 160px; }
+    /* ── SECTION HEADER ── */
+    .sec-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+    .sec-num .bracket { color: var(--red); }
+    h2.sec-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .sec-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 3.5rem;
+    }
 
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-top: 120px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 88px 2rem 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
     }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
+    .hero-path {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
       letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      opacity: 0.8;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 20px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), #818cf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 1.125rem;
-      color: var(--text-dim);
-      max-width: 560px;
-      margin-bottom: 2.5rem;
-      line-height: 1.7;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border: none;
-    }
-
-    .btn-primary:hover {
-      background: #fff;
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── SECTION HEADER ── */
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      opacity: 0.7;
-    }
-
-    .section-title {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .section-desc {
-      color: var(--text-dim);
-      max-width: 560px;
-      line-height: 1.7;
       margin-bottom: 3rem;
     }
-
-    /* ── SKILLS ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.5rem;
+    .hero h1 {
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
     }
-
-    .skill-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.75rem;
-      transition: border-color 0.25s, transform 0.25s;
-    }
-
-    .skill-card:hover {
-      border-color: rgba(0,229,255,0.3);
-      transform: translateY(-3px);
-    }
-
-    .skill-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      background: var(--accent-glow);
-      border: 1px solid rgba(0,229,255,0.2);
+    .hero h1 .dim { color: rgba(255,255,255,0.18); }
+    .hero-bottom {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-
-    .skill-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: var(--text);
-    }
-
-    .skill-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ── PROJECTS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: border-color 0.25s, transform 0.25s;
-      cursor: pointer;
-    }
-
-    .project-card:hover {
-      border-color: rgba(0,229,255,0.3);
-      transform: translateY(-4px);
-    }
-
-    .project-img {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, #0d1117 0%, #1a0535 50%, #050d1a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-img::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 50%, var(--bg2) 100%);
-    }
-
-    .project-body {
-      padding: 1.5rem;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 0.5rem;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
       flex-wrap: wrap;
-      margin-bottom: 0.75rem;
     }
-
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      background: rgba(0,229,255,0.08);
-      border: 1px solid rgba(0,229,255,0.15);
-      color: var(--accent);
-      letter-spacing: 0.05em;
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      max-width: 420px;
+      line-height: 1.75;
     }
+    .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
-    .project-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center;
+      padding: 0.65rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-
-    .project-desc {
-      font-size: 0.82rem;
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+    }
+    .btn-primary:hover { background: transparent; color: var(--text); }
+    .btn-ghost {
+      background: transparent;
       color: var(--text-muted);
-      line-height: 1.6;
+      border: 1px solid var(--border2);
     }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text); }
 
     /* ── ABOUT ── */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
-    @media (max-width: 680px) {
-      .about-grid { grid-template-columns: 1fr; }
-    }
-
-    .about-text p {
-      color: var(--text-dim);
-      line-height: 1.8;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-    }
-
-    .stat-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .stat-item {
-      background: var(--bg2);
+      gap: 0;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
     }
+    .about-col {
+      padding: 2.5rem;
+    }
+    .about-col:first-child { border-right: 1px solid var(--border); }
+    .about-col p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .about-col p:last-child { margin-bottom: 0; }
 
-    .stat-num {
-      font-size: 2rem;
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+    }
+    .stat-cell {
+      padding: 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell:hover { background: var(--bg2); }
+    .stat-n {
+      font-family: var(--mono);
+      font-size: 2.5rem;
       font-weight: 700;
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.3rem;
       line-height: 1;
     }
-
-    .stat-label {
-      font-size: 0.82rem;
+    .stat-l {
+      font-size: 0.72rem;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--mono);
+    }
+
+    /* Exp */
+    .exp-list { margin-top: 2rem; }
+    .exp-item {
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem 1rem;
+      align-items: start;
+      transition: background 0.2s;
+    }
+    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+    .exp-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .exp-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+    .exp-tag {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      align-self: start;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+    }
+    .skill-cell {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.25s;
+      cursor: default;
+    }
+    .skill-cell:hover { background: var(--bg2); }
+    .skill-cell:nth-child(4n) { border-right: none; }
+    .skill-cell:nth-last-child(-n+4) { border-bottom: none; }
+    .skill-num {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .skill-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .skill-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── PROJECTS ── */
+    .projects-list {
+      border: 1px solid var(--border);
+    }
+    .project-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 1fr auto;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      align-items: stretch;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .project-row:last-child { border-bottom: none; }
+    .project-row:hover { background: var(--bg2); }
+    .project-idx {
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted);
+      border-right: 1px solid var(--border);
+      padding: 2rem 1rem;
+    }
+    .project-main {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .project-name {
+      font-size: 1rem; font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .project-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.65; }
+    .project-meta-col {
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      border-right: 1px solid var(--border);
+    }
+    .project-meta-item {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+    .project-meta-item .val { color: rgba(255,255,255,0.6); }
+    .project-tags-col {
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.4rem;
+      justify-content: center; min-width: 140px;
+    }
+    .ptag {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
     }
 
     /* ── CONTACT ── */
-    #contact {
-      text-align: center;
-    }
-
-    .contact-card {
-      background: var(--bg2);
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       border: 1px solid var(--border);
-      border-radius: 16px;
+    }
+    .contact-left {
       padding: 3rem;
-      max-width: 560px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
+      border-right: 1px solid var(--border);
     }
-
-    .contact-card::before {
-      content: '';
-      position: absolute;
-      top: -60px; left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
-      pointer-events: none;
+    .contact-left h3 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
     }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 2rem;
-    }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.9rem 1.25rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
+    .contact-left p {
+      font-size: 0.85rem;
       color: var(--text-dim);
+      line-height: 1.75;
+      max-width: 360px;
+    }
+    .available-line {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-top: 2rem;
+    }
+    .green-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    .contact-right {
+      padding: 3rem;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .contact-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
       text-decoration: none;
-      font-size: 0.875rem;
-      transition: all 0.2s;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .contact-link:first-child { border-top: 1px solid var(--border); }
+    .contact-link:hover { color: var(--text); padding-left: 0.5rem; }
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .contact-link-arrow { font-size: 0.9rem; opacity: 0.4; }
+
+    /* ── ARCHIVE GALLERY ── */
+    .archive-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .archive-count {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.1em;
+    }
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 3px;
+    }
+    .archive-item {
+      position: relative; overflow: hidden;
       background: var(--bg3);
+      cursor: pointer;
+    }
+    /* Tall item spans 2 rows */
+    .archive-item.tall { grid-row: span 2; }
+    .archive-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: grayscale(100%) brightness(0.8);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .archive-item:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.03);
+    }
+    .archive-item-placeholder {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--bg3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+    .archive-item.tall .archive-item-placeholder {
+      aspect-ratio: unset; height: 100%; min-height: 400px;
+    }
+    .placeholder-label {
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--text-muted); letter-spacing: 0.1em;
+      text-transform: uppercase; text-align: center; padding: 0 1rem;
     }
 
-    .contact-link:hover {
-      border-color: rgba(0,229,255,0.3);
-      color: var(--accent);
-      background: rgba(0,229,255,0.04);
+    /* ── VIDEO REEL ── */
+    .reel-wrap {
+      position: relative; margin-top: 3px;
+      background: var(--bg3); overflow: hidden;
+    }
+    .reel-label {
+      position: absolute; top: 1rem; left: 1rem;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: rgba(255,255,255,0.5); letter-spacing: 0.1em;
+      text-transform: uppercase; z-index: 2;
+      background: rgba(0,0,0,0.5); padding: 0.3rem 0.6rem;
+    }
+    .reel-wrap video {
+      width: 100%; display: block;
+      max-height: 480px; object-fit: cover;
+    }
+    .reel-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono); font-size: 0.6rem;
+      color: var(--text-muted); letter-spacing: 0.1em;
     }
 
-    .contact-link-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--accent-glow);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
+    @media (max-width: 768px) {
+      .archive-grid { grid-template-columns: repeat(2, 1fr); }
+      .archive-item.tall { grid-row: span 1; }
+    }
+    @media (max-width: 480px) {
+      .archive-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 2rem 5%;
-      text-align: center;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.6rem;
       color: var(--text-muted);
-      font-size: 0.8rem;
-      position: relative;
-      z-index: 1;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .footer-status {
+      display: flex; align-items: center; gap: 0.5rem;
     }
 
-    /* ── DIVIDER ── */
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── GLOW ACCENT ── */
-    .glow-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      margin-right: 0.5rem;
-    }
+    /* ── DIVIDERS ── */
+    .divider { border-top: 1px solid var(--border); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      nav { padding: 0 4%; }
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid .stat-cell:nth-child(2) { border-right: none; }
+      .stats-grid .stat-cell:nth-child(2) { border-right: none; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .skill-cell:nth-child(2n) { border-right: none; }
+      .skill-cell:nth-last-child(-n+2) { border-bottom: none; }
+      .skill-cell:nth-last-child(-n+4):not(:nth-last-child(-n+2)) { border-bottom: 1px solid var(--border); }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .contact-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .project-row { grid-template-columns: 40px 1fr; }
+      .project-meta-col, .project-tags-col { display: none; }
+      .project-main { border-right: none; }
+    }
+    @media (max-width: 768px) {
       .nav-links { display: none; }
-      section { padding: 80px 4%; }
+      .nav-burger { display: flex; }
+      nav, .status-bar { padding: 0 1.25rem; }
+      .hero, .section, .section-full .section-inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+      .section { padding: 70px 1.25rem; }
+      .section-full { padding: 60px 1.25rem; }
+      .stat-cell { padding: 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: clamp(2rem, 12vw, 3rem); }
     }
   </style>
 </head>
 <body>
 
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span>EGOR GLADKOV v1.0</span>
+      <span><span class="status-dot"></span><span class="status-val" id="statusCity">КАЗАНЬ</span></span>
+    </div>
+    <div class="status-right">
+      <span>СТАТУС: <span class="status-val">ОТКРЫТ ДЛЯ ПРОЕКТОВ</span></span>
+      <span id="statusTime" class="status-val">--:--</span>
+    </div>
+  </div>
+
   <!-- NAV -->
   <nav>
-    <a href="#hero" class="nav-logo">// ТЕХСПЕЦ</a>
+    <a href="#hero" class="nav-logo">GLADKOV<span>.</span></a>
     <ul class="nav-links">
-      <li><a href="#about">Обо мне</a></li>
-      <li><a href="#skills">Навыки</a></li>
-      <li><a href="#projects">Проекты</a></li>
-      <li><a href="#contact">Контакты</a></li>
+      <li><a href="#about">О МНЕ</a></li>
+      <li><a href="#skills">НАВЫКИ</a></li>
+      <li><a href="#projects">ПРОЕКТЫ</a></li>
+      <li><a href="#contact">КОНТАКТ</a></li>
     </ul>
+    <div class="nav-burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#about" onclick="toggleMenu()">О МНЕ</a>
+    <a href="#skills" onclick="toggleMenu()">НАВЫКИ</a>
+    <a href="#projects" onclick="toggleMenu()">ПРОЕКТЫ</a>
+    <a href="#contact" onclick="toggleMenu()">КОНТАКТ</a>
+  </div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <div class="hero-tag">Технический специалист · Казань</div>
-    <h1>Вывожу<br/>визуал<br/><span>на новый уровень</span></h1>
-    <p class="hero-sub">
-      Техническое обеспечение концертов, шоу и мероприятий.
-      Работаю с Resolume Arena, TouchDesigner, vMix и Novastar.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">Посмотреть проекты</a>
-      <a href="#contact" class="btn btn-ghost">Связаться</a>
+    <div class="hero-path reveal visible"><span style="color:var(--red)">technician://</span>gladkov.egr — казань, россия</div>
+    <h1 class="reveal visible" style="transition-delay:0.05s">
+      EGOR<br/>GLADKOV<br/><span class="dim">AV ENGINEER</span>
+    </h1>
+    <div class="hero-bottom reveal visible" style="transition-delay:0.15s">
+      <p class="hero-sub">
+        Технический специалист.<br/>
+        Видеоинженер. Звукорежиссёр.<br/>
+        Концерты, трансляции, инсталляции.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">ПРОЕКТЫ</a>
+        <a href="#contact" class="btn btn-ghost">КОНТАКТ</a>
+      </div>
     </div>
   </section>
-
-  <div class="divider"></div>
 
   <!-- ABOUT -->
-  <section id="about">
-    <div class="section-label">01 / Обо мне</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <h2 class="section-title">Технарь в сфере визуального продакшна</h2>
-        <p>
-          Специализируюсь на техническом обеспечении мероприятий — от настройки
-          видеопроцессоров до управления live-видеосетапом в реальном времени.
-        </p>
-        <p>
-          Бакалавр по направлению «Конструирование и технология электронных средств»
-          (КНИТУ-КАИ). Умею не только запустить оборудование, но и разобраться
-          в причине сбоя под давлением прямого эфира.
-        </p>
-        <p>
-          Работаю с ивент-агентствами, концертными площадками и организаторами
-          крупных мероприятий в Казани и Татарстане.
-        </p>
+  <div class="section-full" id="about">
+    <div class="section-inner">
+      <span class="sec-num reveal"><span class="bracket">[</span>01<span class="bracket">]</span> О МНЕ</span>
+      <div class="about-grid reveal">
+        <div class="about-col">
+          <p>
+            Организую и провожу мероприятия любого масштаба — концерты,
+            корпоративы, конференции с онлайн-трансляцией.
+          </p>
+          <p>
+            Настраиваю видеооборудование, управляю LED-экранами через Novastar,
+            организую прямые трансляции с передачей SRT-потока через vMix.
+            Работаю с VJ-сетапами в Resolume Arena в реальном времени.
+          </p>
+          <p>
+            Бакалавр КНИТУ-КАИ — конструирование и технология электронных средств.
+          </p>
+        </div>
+        <div class="about-col">
+          <div class="exp-list">
+            <div class="exp-item">
+              <div>
+                <div class="exp-title">Технический директор</div>
+                <div class="exp-desc">Управление техпроцессами, координация команды, взаимодействие с заказчиками, настройка и программирование видеооборудования.</div>
+              </div>
+              <div class="exp-tag" style="border-color:var(--red);color:var(--red)">FULLTIME</div>
+            </div>
+            <div class="exp-item">
+              <div>
+                <div class="exp-title">Видеоинженер / Звукорежиссёр</div>
+                <div class="exp-desc">Фриланс — видеотрансляции, vMix, Resolume Arena, настройка и обслуживание звукового оборудования, аналоговые и цифровые пульты.</div>
+              </div>
+              <div class="exp-tag" style="border-color:var(--red);color:var(--red)">FREELANCE</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="stat-list">
-        <div class="stat-item">
-          <div class="stat-num">20+</div>
-          <div class="stat-label">Мероприятий<br/>отработано</div>
+      <div class="stats-grid reveal">
+        <div class="stat-cell">
+          <div class="stat-n">50+</div>
+          <div class="stat-l">Мероприятий</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Ключевых<br/>инструмента</div>
+        <div class="stat-cell">
+          <div class="stat-n">6+</div>
+          <div class="stat-l">Инструментов</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-num">0</div>
-          <div class="stat-label">Сорванных<br/>показов</div>
+        <div class="stat-cell">
+          <div class="stat-n">0</div>
+          <div class="stat-l">Сорванных показов</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n">SRT</div>
+          <div class="stat-l">Прямые эфиры</div>
         </div>
       </div>
     </div>
-  </section>
-
-  <div class="divider"></div>
+  </div>
 
   <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-label">02 / Навыки</div>
-    <h2 class="section-title">Инструменты</h2>
-    <p class="section-desc">
-      Работаю с профессиональным видеософтом и оборудованием для обеспечения
-      технической части мероприятий любого масштаба.
-    </p>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon">🎬</div>
-        <div class="skill-name">Resolume Arena</div>
-        <div class="skill-desc">VJ-сетапы, live-видео, маппинг, управление клипами и слоями в реальном времени на концертах и шоу.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">⚡</div>
-        <div class="skill-name">TouchDesigner</div>
-        <div class="skill-desc">Создание интерактивных и генеративных визуальных патчей, интеграция с внешними источниками данных.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">📡</div>
-        <div class="skill-name">vMix</div>
-        <div class="skill-desc">Многокамерный продакшн, прямые трансляции, видеомикширование и запись для корпоративных мероприятий.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🖥️</div>
-        <div class="skill-name">Novastar</div>
-        <div class="skill-desc">Настройка и управление LED-процессорами, калибровка экранов, конфигурирование видеосетапов.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🔧</div>
-        <div class="skill-name">Диагностика и монтаж</div>
-        <div class="skill-desc">Построение видеотрактов, устранение неисправностей на мероприятии, техническая документация.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🎛️</div>
-        <div class="skill-name">Live Production</div>
-        <div class="skill-desc">Работа в условиях прямого эфира, координация с режиссёром и световиком, быстрая реакция на изменения.</div>
+  <div class="section-full" id="skills">
+    <div class="section-inner">
+      <span class="sec-num reveal"><span class="bracket">[</span>02<span class="bracket">]</span> НАВЫКИ</span>
+      <div class="skills-grid reveal">
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">01</div>
+          <div class="skill-name">Resolume Arena</div>
+          <div class="skill-desc">VJ-сетапы, live-видео, управление клипами и слоями в реальном времени на концертах и шоу.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">02</div>
+          <div class="skill-name">vMix</div>
+          <div class="skill-desc">Многокамерный продакшн, прямые трансляции, SRT-поток, видеомикширование и запись.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">03</div>
+          <div class="skill-name">Novastar</div>
+          <div class="skill-desc">Настройка и управление LED-процессорами, калибровка экранов, конфигурация видеосетапов.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">04</div>
+          <div class="skill-name">TouchDesigner</div>
+          <div class="skill-desc">Интерактивные и генеративные визуальные патчи, интеграция с внешними источниками данных.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">05</div>
+          <div class="skill-name">Звук</div>
+          <div class="skill-desc">Аналоговые и цифровые пульты, линейные массивы, Das Aero, настройка и обслуживание аудиосистем.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">06</div>
+          <div class="skill-name">DMX / ArtNet</div>
+          <div class="skill-desc">Программирование световых приборов, управление сценическим светом по протоколам DMX-512 и ArtNet.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">07</div>
+          <div class="skill-name">Монтаж</div>
+          <div class="skill-desc">Монтаж и демонтаж звукового, светового и видеооборудования, построение видеотрактов, фермы.</div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-num" style="color:var(--red)">08</div>
+          <div class="skill-name">Live Production</div>
+          <div class="skill-desc">Работа в прямом эфире, координация с режиссёром и световиком, управление технической командой.</div>
+        </div>
       </div>
     </div>
-  </section>
-
-  <div class="divider"></div>
+  </div>
 
   <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-label">03 / Проекты</div>
-    <h2 class="section-title">Выбранные работы</h2>
-    <p class="section-desc">
-      Заменить эти карточки на реальные проекты — добавь название, описание,
-      используемые инструменты и фото с мероприятия.
-    </p>
-    <div class="projects-grid">
+  <div class="section-full" id="projects">
+    <div class="section-inner">
+      <span class="sec-num reveal"><span class="bracket">[</span>03<span class="bracket">]</span> ПРОЕКТЫ</span>
+      <div class="projects-list reveal">
 
-      <div class="project-card">
-        <div class="project-img">🎤</div>
-        <div class="project-body">
-          <div class="project-tags">
-            <span class="tag">Resolume</span>
-            <span class="tag">Novastar</span>
+        <div class="project-row">
+          <div class="project-idx">01</div>
+          <div class="project-main">
+            <div class="project-name">Сценическая конструкция</div>
+            <div class="project-desc">Полное техническое оснащение сцены. Светодиодный экран 5×3, линейный массив Das Aero, 48 световых приборов, 18 метров ферм. Монтаж, настройка и управление всем комплексом в режиме реального времени.</div>
           </div>
-          <div class="project-title">Название концерта / шоу</div>
-          <div class="project-desc">
-            Кратко: что делал, масштаб, оборудование, результат.
-            Например: управление видеосетапом на 3 экрана, аудитория 2000 человек.
+          <div class="project-meta-col">
+            <div class="project-meta-item">ЭКРАН: <span class="val">5×3 LED</span></div>
+            <div class="project-meta-item">СВЕТ: <span class="val">48 ПРИБОРОВ</span></div>
+            <div class="project-meta-item">ФЕРМЫ: <span class="val">18 М</span></div>
+          </div>
+          <div class="project-tags-col">
+            <span class="ptag">Novastar</span>
+            <span class="ptag">LED</span>
+            <span class="ptag">DMX</span>
+            <span class="ptag">Das Aero</span>
           </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <div class="project-img">🏟️</div>
-        <div class="project-body">
-          <div class="project-tags">
-            <span class="tag">vMix</span>
-            <span class="tag">Трансляция</span>
+        <div class="project-row">
+          <div class="project-idx">02</div>
+          <div class="project-main">
+            <div class="project-name">Прямой эфир из операционной</div>
+            <div class="project-desc">Организация прямой трансляции из операционной на медицинскую конференцию. Установка связи между хирургом и конференц-залом. Передача SRT-сигнала в реальном времени с минимальной задержкой.</div>
           </div>
-          <div class="project-title">Название мероприятия</div>
-          <div class="project-desc">
-            Описание проекта: задача, твоя роль, технический стек, итог.
+          <div class="project-meta-col">
+            <div class="project-meta-item">ПРОТОКОЛ: <span class="val">SRT</span></div>
+            <div class="project-meta-item">ФОРМАТ: <span class="val">LIVE</span></div>
+            <div class="project-meta-item">ПО: <span class="val">vMix</span></div>
+          </div>
+          <div class="project-tags-col">
+            <span class="ptag">vMix</span>
+            <span class="ptag">SRT</span>
+            <span class="ptag">Трансляция</span>
           </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <div class="project-img">✨</div>
-        <div class="project-body">
-          <div class="project-tags">
-            <span class="tag">TouchDesigner</span>
-            <span class="tag">Интерактив</span>
+        <div class="project-row">
+          <div class="project-idx">→</div>
+          <div class="project-main">
+            <div class="project-name">Ваш следующий проект</div>
+            <div class="project-desc">Концерт, корпоратив, конференция или инсталляция — обеспечу техническую часть под ключ: видео, звук, свет, прямая трансляция. Напишите — обсудим задачу.</div>
           </div>
-          <div class="project-title">Название проекта</div>
-          <div class="project-desc">
-            Описание: что именно было реализовано, чем отличался этот проект.
+          <div class="project-meta-col">
+            <div class="project-meta-item">КАЗАНЬ и выезд</div>
+          </div>
+          <div class="project-tags-col">
+            <a href="#contact" class="btn btn-ghost" style="font-size:0.6rem; padding: 0.4rem 0.8rem;">НАПИСАТЬ →</a>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
+  <!-- ARCHIVE -->
+  <div class="section-full" id="archive">
+    <div class="section-inner">
+      <div class="archive-header">
+        <span class="sec-num reveal" style="margin-bottom:0"><span class="bracket">[</span>04<span class="bracket">]</span> project://archive</span>
+        <span class="archive-count reveal">IMAGES 04 — KAZАНЬ</span>
+      </div>
+
+      <div class="archive-grid reveal">
+        <!-- Фото 1 — tall, концерт с фермами -->
+        <div class="archive-item tall">
+          <img src="assets/photos/photo1.jpg" alt="Концерт" onerror="this.parentElement.innerHTML='<div class=\'archive-item-placeholder\'><span class=\'placeholder-label\'>photo1.jpg<br/>Концерт / фермы</span></div>'"/>
+        </div>
+        <!-- Фото 2 — корпоратив с люстрой -->
+        <div class="archive-item">
+          <img src="assets/photos/photo2.jpg" alt="Корпоратив" onerror="this.parentElement.innerHTML='<div class=\'archive-item-placeholder\'><span class=\'placeholder-label\'>photo2.jpg<br/>Корпоратив / люстра</span></div>'"/>
+        </div>
+        <!-- Фото 3 — LED стена -->
+        <div class="archive-item">
+          <img src="assets/photos/photo3.jpg" alt="LED стена" onerror="this.parentElement.innerHTML='<div class=\'archive-item-placeholder\'><span class=\'placeholder-label\'>photo3.jpg<br/>LED стена</span></div>'"/>
+        </div>
+        <!-- Фото 4 — боксёрский ринг -->
+        <div class="archive-item">
+          <img src="assets/photos/photo4.jpg" alt="Боксёрский ринг" onerror="this.parentElement.innerHTML='<div class=\'archive-item-placeholder\'><span class=\'placeholder-label\'>photo4.jpg<br/>Ринг / спорт</span></div>'"/>
+        </div>
+        <!-- Пустой слот — место для 5-го фото -->
+        <div class="archive-item">
+          <img src="assets/photos/photo5.jpg" alt="Проект" onerror="this.parentElement.innerHTML='<div class=\'archive-item-placeholder\'><span class=\'placeholder-label\'>+ добавить фото</span></div>'"/>
+        </div>
+      </div>
+
+      <!-- VIDEO REEL -->
+      <div class="reel-wrap reveal">
+        <span class="reel-label"><span style="color:var(--red)">▶</span> REEL // ANIMATION</span>
+        <video autoplay muted loop playsinline>
+          <source src="assets/reel.mp4" type="video/mp4">
+        </video>
+        <div class="reel-footer">
+          <span>KAZАНЬ — 2024/2025</span>
+          <span><span class="status-dot" style="margin-right:0.4rem"></span>LIVE PRODUCTION</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-label">04 / Контакты</div>
-    <h2 class="section-title">Обсудим проект?</h2>
-    <p class="section-desc" style="margin: 0 auto 2rem; text-align:center;">
-      Напишите мне — расскажу о задаче, сроках и стоимости.
-    </p>
-    <div class="contact-card">
-      <p style="color:var(--text-dim); font-size:0.9rem;">
-        <span class="glow-dot"></span>Доступен для новых проектов · Казань
-      </p>
-      <div class="contact-links">
-        <a href="https://t.me/ВАШ_НИКНЕЙМ" class="contact-link">
-          <div class="contact-link-icon">✈️</div>
-          Telegram — @ВАШ_НИКНЕЙМ
-        </a>
-        <a href="mailto:ВАШ@EMAIL.RU" class="contact-link">
-          <div class="contact-link-icon">📧</div>
-          ВАШ@EMAIL.RU
-        </a>
-        <a href="https://vk.com/ВАШ_ID" class="contact-link">
-          <div class="contact-link-icon">💬</div>
-          ВКонтакте
-        </a>
+  <div class="section-full" id="contact">
+    <div class="section-inner">
+      <span class="sec-num reveal"><span class="bracket">[</span>05<span class="bracket">]</span> КОНТАКТ</span>
+      <div class="contact-wrap reveal">
+        <div class="contact-left">
+          <h3>ОБСУДИМ<br/>ПРОЕКТ?</h3>
+          <p>Напишите — расскажу об опыте, расскажу про задачу, согласуем сроки и стоимость.</p>
+          <div class="available-line">
+            <div class="green-dot"></div>
+            ОТКРЫТ ДЛЯ НОВЫХ ПРОЕКТОВ
+          </div>
+        </div>
+        <div class="contact-right">
+          <a href="https://t.me/daizvuk" target="_blank" class="contact-link">
+            <div>
+              <div class="contact-link-label">Telegram</div>
+              @daizvuk
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="mailto:xxxfrezo@yandex.ru" class="contact-link">
+            <div>
+              <div class="contact-link-label">Email</div>
+              xxxfrezo@yandex.ru
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="https://vk.com/gladkovegr" target="_blank" class="contact-link">
+            <div>
+              <div class="contact-link-label">ВКонтакте</div>
+              @gladkovegr
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="https://instagram.com/gladkovegr" target="_blank" class="contact-link">
+            <div>
+              <div class="contact-link-label">Instagram</div>
+              @gladkovegr
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- FOOTER -->
   <footer>
-    <span style="color:var(--accent); font-family:'JetBrains Mono',monospace;">// </span>
-    Технический специалист · Казань · 2025
+    <span>© 2025 EGOR GLADKOV — KAZAN, RUSSIA</span>
+    <div class="footer-status">
+      <div class="green-dot"></div>
+      ALL SYSTEMS OK
+    </div>
   </footer>
 
+  <script>
+    // Live time
+    function updateTime() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      const s = String(now.getSeconds()).padStart(2,'0');
+      document.getElementById('statusTime').textContent = h + ':' + m + ':' + s;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('navMobile').classList.toggle('open');
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('nav') && !e.target.closest('#navMobile')) {
+        document.getElementById('navMobile').classList.remove('open');
+      }
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+
+    // Active nav
+    const sections = document.querySelectorAll('[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 140) current = s.id;
+      });
+      document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? '#fff' : '';
+      });
+    }, { passive: true });
+  </script>
 </body>
 </html>
